@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cruzamento 4.0 - Painel de Controle</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .via {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      margin: 30px 0;
+    }
+
+    .semaforo {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80px;
+    }
+
+    .luz {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #555;
+      margin: 10px auto;
+    }
+
+    .vermelho { background: red; }
+    .amarelo { background: yellow; }
+    .verde { background: green; }
+
+    .controles button {
+      margin: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .status p {
+      margin: 8px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Painel do Cruzamento 4.0</h1>
+<p>Simulação didática – sensores e tempos representados de forma conceitual</p>
+
+<div class="via">
+  <div>
+    <h3>Via</h3>
+    <div class="semaforo">
+      <div class="luz" id="via-vermelho"></div>
+      <div class="luz" id="via-amarelo"></div>
+      <div class="luz" id="via-verde"></div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Pedestre</h3>
+    <div class="semaforo">
+      <div class="luz" id="ped-vermelho"></div>
+      <div class="luz" id="ped-verde"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controles">
+  <button onclick="toggleFluxo()">Fluxo Alto</button>
+  <button onclick="toggleChuva()">Chuva</button>
+  <button onclick="toggleChuvaIntensa()">Chuva Intensa</button>
+  <button onclick="toggleSensor()">Falha de Sensor</button>
+  <button onclick="toggleServidor()">Servidor OFF</button>
+  <button onclick="resetar()">Resetar Sistema</button>
+</div>
+
+<div class="status">
+  <p id="operacional"></p>
+  <p id="reacao"></p>
+</div>
+
+<script>
+  // Estados do sistema
+  let fluxoAlto = false;
+  let chuva = false;
+  let chuvaIntensa = false;
+  let sensorOk = true;
+  let servidorOnline = true;
+
+  let estado = "verde";
+  let contador = 0;
+
+  function limparLuzes() {
+    document.querySelectorAll(".luz").forEach(l => l.className = "luz");
+  }
+
+  function atualizarSemaforo() {
+    limparLuzes();
+    let reacoes = [];
+
+    // Status operacional
+    document.getElementById("operacional").innerText =
+      `Servidor: ${servidorOnline ? "🟢 Online" : "🔴 Offline"} | ` +
+      `Sensores: ${sensorOk ? "🟢 Operacionais" : "🔴 Falha"}`;
+
+    // PRIORIDADE MÁXIMA: falha de sensor
+    if (!sensorOk) {
+      document.getElementById("via-amarelo").classList.add("amarelo");
+      reacoes.push("⚠️ Falha de sensor detectada");
+      reacoes.push("Sistema operando em modo de segurança (pisca amarelo)");
+      document.getElementById("reacao").innerText = reacoes.join(" | ");
+      return;
+    }
+
+    // Avaliação de cenários
+    if (fluxoAlto) {
+      reacoes.push("🚗 Fluxo alto: tempo do verde aumentado");
+    } else {
+      reacoes.push("🚙 Fluxo normal: tempos padrão");
+    }
+
+    if (chuvaIntensa) {
+      reacoes.push("🌧️ Chuva intensa: tempo do amarelo aumentado");
+    } else if (chuva) {
+      reacoes.push("🌦️ Chuva leve: atenção moderada");
+    }
+
+    if (!servidorOnline) {
+      reacoes.push("💻 Servidor offline: algoritmo executando localmente");
+    } else {
+      reacoes.push("☁️ Dados enviados ao servidor");
+    }
+
+    // Execução do semáforo
+    if (estado === "verde") {
+      document.getElementById("via-verde").classList.add("verde");
+      document.getElementById("ped-vermelho").classList.add("vermelho");
+    }
+
+    if (estado === "amarelo") {
+      document.getElementById("via-amarelo").classList.add("amarelo");
+    }
+
+    if (estado === "vermelho") {
+      document.getElementById("via-vermelho").classList.add("vermelho");
+      document.getElementById("ped-verde").classList.add("verde");
+    }
+
+    document.getElementById("reacao").innerText = reacoes.join(" | ");
+  }
+
+  // Loop principal do sistema
+  setInterval(() => {
+    if (!sensorOk) return;
+
+    contador++;
+
+    let tempoVerde = fluxoAlto ? 6 : 4;
+    let tempoAmarelo = chuvaIntensa ? 4 : 2;
+
+    if (estado === "verde" && contador >= tempoVerde) {
+      estado = "amarelo";
+      contador = 0;
+    } 
+    else if (estado === "amarelo" && contador >= tempoAmarelo) {
+      estado = "vermelho";
+      contador = 0;
+    } 
+    else if (estado === "vermelho" && contador >= 4) {
+      estado = "verde";
+      contador = 0;
+    }
+
+    atualizarSemaforo();
+  }, 1000);
+
+  // Controles
+  function toggleFluxo() { fluxoAlto = !fluxoAlto; }
+  function toggleChuva() { chuva = !chuva; chuvaIntensa = false; }
+  function toggleChuvaIntensa() { chuvaIntensa = !chuvaIntensa; chuva = false; }
+  function toggleSensor() { sensorOk = !sensorOk; atualizarSemaforo(); }
+  function toggleServidor() { servidorOnline = !servidorOnline; }
+
+  function resetar() {
+    fluxoAlto = false;
+    chuva = false;
+    chuvaIntensa = false;
+    sensorOk = true;
+    servidorOnline = true;
+    estado = "verde";
+    contador = 0;
+    atualizarSemaforo();
+  }
+
+  atualizarSemaforo();
+</script>
+
+</body>
+</html>
