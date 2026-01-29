@@ -97,26 +97,3 @@ O projeto contempla conceitos de segurança, incluindo:
 - Conscientização contra engenharia social
 
 A política completa pode ser consultada na documentação do projeto.
-
----
-
-## 📂 Estrutura do Projeto
-
-```text
-/
-├── Documentação/
-│   ├── Fluxogramas/
-│   │   ├── Fluxograma Semáforos.png
-│   │   └── Semáforo Pinos Leitura Flow-2026-01-29-172825.png
-│   ├── 2.2 atividade do projeto.docx
-│   ├── ATIVIDADE REVISÃO TERMOS 1 E 2.pdf
-│   ├── Política de Segurança da Informação.docx
-│   ├── Relatório de Requisitos do Projeto Cruzamento 4.0.docx
-│   └── relatorio do sistema ops.docx
-│
-├── Interface de Controle/
-│   ├── index.html        # Painel principal do sistema
-│   └── login.html        # Tela de login
-│
-├── README.md             # Documentação principal do repositório
-└── wifi-scan.zip         # Material complementar
