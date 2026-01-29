@@ -1,91 +1,102 @@
 # 🚦 Cruzamento 4.0 — Semáforo Inteligente (MVP)
 
-Projeto desenvolvido como atividade prática integradora no curso Técnico em Desenvolvimento de Sistemas – SENAI.
+Projeto desenvolvido como atividade prática integradora no curso **Técnico em Desenvolvimento de Sistemas – SENAI**.
 
-O **Cruzamento 4.0** simula um sistema de controle inteligente de semáforos utilizando conceitos de IoT, lógica de programação, segurança da informação e arquitetura de sistemas, com foco em resiliência e adaptação a cenários críticos.
+O **Cruzamento 4.0** simula um sistema de controle inteligente de semáforos, aplicando conceitos de **IoT**, **lógica de programação**, **arquitetura de sistemas**, **sistemas operacionais** e **segurança da informação**, com foco em resiliência e adaptação a cenários críticos.
 
 ---
 
 ## 📌 Objetivo do Projeto
 
-Desenvolver uma **solução mínima viável (MVP)** capaz de:
+Desenvolver uma **Solução Mínima Viável (MVP)** capaz de:
+
 - Controlar um cruzamento inteligente
-- Adaptar tempos do semáforo conforme fluxo de veículos e clima
-- Operar mesmo com falhas de sensores ou servidor
-- Demonstrar conceitos de IoT, segurança e clean code de forma didática
+- Ajustar dinamicamente os tempos dos semáforos
+- Reagir a condições climáticas adversas
+- Operar de forma segura diante de falhas de sensores ou servidor
+- Demonstrar boas práticas de organização, documentação e clean code
 
 ---
 
 ## 🧠 Funcionalidades Principais
 
-- 🚗 Ajuste automático do tempo do semáforo conforme fluxo de veículos
+- 🚗 Ajuste automático do tempo do sinal verde conforme o fluxo de veículos
 - 🌧️ Adaptação do sistema em caso de chuva ou chuva intensa
-- ⚠️ Modo de segurança em falha de sensores (pisca amarelo)
+- ⚠️ Modo de segurança automático em falha de sensores (pisca amarelo)
 - 💻 Execução local do algoritmo quando o servidor está offline
 - 🔐 Tela de login para acesso administrativo
 - 🖥️ Painel visual de controle e monitoramento em tempo real
 - 🔘 Botões para simulação de cenários isolados ou combinados
+- 📊 Exibição do estado operacional do sistema (servidor, sensores e reações)
 
 ---
 
-## 🏗️ Arquitetura Conceitual
+## 🏗️ Arquitetura Conceitual do Sistema
 
-**Sensores simulados**
-- Fluxo de veículos
-- Chuva / Chuva intensa
+### Sensores (Simulados)
+- Sensor de fluxo de veículos
+- Sensor de chuva / chuva intensa
 
-**Controlador**
+### Controlador
 - Lógica inspirada em microcontrolador (ESP32 / Arduino – conceitual)
 
-**Comunicação**
+### Comunicação
 - Modelo cliente-servidor
 - Simulação de envio de dados ao servidor
-- Execução local em caso de falha
+- Execução local automática em caso de falha de comunicação
 
-**Interface**
+### Interface
 - HTML, CSS e JavaScript puro
-- Simulação visual dos semáforos e estados do sistema
+- Representação visual dos semáforos (via e pedestre)
+- Painel de status e controle interativo
 
 ---
 
 ## 🔁 Lógica do Algoritmo (Resumo)
 
 O sistema avalia continuamente:
+
 - Estado dos sensores
 - Condições climáticas
 - Fluxo de veículos
 - Disponibilidade do servidor
 
-Com base nessas variáveis:
-- Ajusta tempos do verde e amarelo
-- Prioriza segurança em falhas
-- Mantém funcionamento local quando necessário
+Com base nessas variáveis, o algoritmo:
 
-Cenários podem ser **combinados**, como:
+- Ajusta os tempos do sinal verde e amarelo
+- Prioriza a segurança em falhas
+- Mantém funcionamento local quando o servidor está indisponível
+
+O sistema permite **cenários combinados**, como:
 - Chuva intensa + servidor offline
 - Fluxo alto + chuva
-- Falha de sensor em qualquer situação
+- Falha de sensor em qualquer condição
 
 ---
 
 ## 🔐 Tela de Login
 
-Acesso restrito ao painel do sistema:
+Acesso restrito ao painel de controle do sistema:
 
 - **Usuário:** `admin`
 - **Senha:** `cruzamento4`
 
-> ⚠️ Implementação apenas para fins didáticos.  
-> Em ambiente real, seria utilizada autenticação no servidor com hash de senha e controle de sessão.
+> ⚠️ Implementação realizada apenas para fins didáticos.  
+> Em ambiente real, seria necessária autenticação no servidor, uso de hash de senha e controle de sessão.
 
 ---
 
-## 🛡️ Segurança (Visão Geral)
+## 🛡️ Segurança da Informação (Resumo)
+
+O projeto contempla conceitos de segurança, incluindo:
 
 - Controle de acesso ao sistema
-- Operação local em caso de falha de comunicação
-- Modo seguro automático em falha de sensores
-- Conceitos de firewall e portas aplicados de forma teórica
+- Política de Senhas e Acessos
+- Operação segura em falhas de sensores
+- Continuidade operacional em falha do servidor
+- Conscientização contra engenharia social
+
+A política completa pode ser consultada na documentação do projeto.
 
 ---
 
@@ -108,4 +119,4 @@ Acesso restrito ao painel do sistema:
 │   └── login.html        # Tela de login
 │
 ├── README.md             # Documentação principal do repositório
-└── wifi-scan.zip         # Arquivo auxiliar / material complementar
+└── wifi-scan.zip         # Material complementar
